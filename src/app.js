@@ -1,13 +1,19 @@
 class IndecisionApp extends React.Component {
+    constructor(props){
+        super(props);
+        this.state= {
+            options: []
+        }
+    }
   render() {
       const title = "Indecision"
       const subtitle= "Put your life in the hands of a computer"
-      const options= ['thing one','thing two', 'thing three']
+      
       return (
           <div>
               <Header title = {title} subtitle={subtitle}/>
-              <Action />
-              <Options options={options}/>
+              <Action hasOptions={this.state.options.length>0} />
+              <Options options={this.state.options} />
               <AddOptions />
           </div>
       )
@@ -33,7 +39,9 @@ handlePick(){
   render() {
       return (
           <div>
-              <button onClick={this.handlePick}>What should I do?</button>
+              <button onClick={this.handlePick}
+               disabled={!this.props.hasOptions}
+              >What should I do?</button>
           </div>
       );
   }
