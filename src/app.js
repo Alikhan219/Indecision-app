@@ -2,6 +2,7 @@ class IndecisionApp extends React.Component {
     constructor(props){
         super(props);
         this.handleDeleteOptions= this.handleDeleteOptions.bind(this)
+        this.handlePick= this.handlePick.bind(this)
         this.state= {
             options: ["thing one", "thing two" ,"thing three"]
         }
@@ -13,6 +14,11 @@ class IndecisionApp extends React.Component {
             }
         })
     }
+    handlePick(){
+        const randNum= Math.floor(Math.random() * this.state.options.length)
+        const option= this.state.options[randNum]
+        alert(option)
+    }
   render() {
       const title = "Indecision"
       const subtitle= "Put your life in the hands of a computer"
@@ -20,7 +26,9 @@ class IndecisionApp extends React.Component {
       return (
           <div>
               <Header title = {title} subtitle={subtitle}/>
-              <Action hasOptions={this.state.options.length > 0} />
+              <Action hasOptions={this.state.options.length > 0}
+              handlePick={this.handlePick}
+               />
               <Options options={this.state.options}
               hasDeleteOptions={this.handleDeleteOptions} />
               <AddOptions />
@@ -42,13 +50,11 @@ class Header extends React.Component {
   }
 }
 class Action extends React.Component {
-handlePick(){
- alert('handelpick')
-  }
+
   render() {
       return (
           <div>
-              <button onClick={this.handlePick}
+              <button onClick={this.props.handlePick}
                disabled={!this.props.hasOptions}
               >What should I do?</button>
           </div>
@@ -101,4 +107,3 @@ ReactDOM.render(<IndecisionApp />, document.getElementById('mainDiv'));
 
 
 
-// babel src/app.js --out-file=public/scripts/app.js --presets="env,react" --watch
