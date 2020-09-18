@@ -1,9 +1,17 @@
 class IndecisionApp extends React.Component {
     constructor(props){
         super(props);
+        this.handleDeleteOptions= this.handleDeleteOptions.bind(this)
         this.state= {
-            options: []
+            options: ["thing one", "thing two" ,"thing three"]
         }
+    }
+    handleDeleteOptions(){
+        this.setState(()=>{
+            return{
+                options:[]
+            }
+        })
     }
   render() {
       const title = "Indecision"
@@ -12,8 +20,9 @@ class IndecisionApp extends React.Component {
       return (
           <div>
               <Header title = {title} subtitle={subtitle}/>
-              <Action hasOptions={this.state.options.length>0} />
-              <Options options={this.state.options} />
+              <Action hasOptions={this.state.options.length > 0} />
+              <Options options={this.state.options}
+              hasDeleteOptions={this.handleDeleteOptions} />
               <AddOptions />
           </div>
       )
@@ -47,17 +56,11 @@ handlePick(){
   }
 }
 class Options extends React.Component {
-  constructor(props){
-    super(props);
-    this.removeAll=this.removeAll.bind(this)
-  }
-  removeAll(){
-      console.log(this.props.options)
-  }
+  
   render() {
       return (
           <div>
-              <button onClick={this.removeAll}>Remove</button>
+              <button onClick={this.props.hasDeleteOptions}>Remove</button>
               {this.props.options.map((option)=> <Option key={option} keyText={option} />)}
               <Option />
           </div>
@@ -94,3 +97,8 @@ class AddOptions extends React.Component {
 }
 
 ReactDOM.render(<IndecisionApp />, document.getElementById('mainDiv'));
+
+
+
+
+// babel src/app.js --out-file=public/scripts/app.js --presets="env,react" --watch
